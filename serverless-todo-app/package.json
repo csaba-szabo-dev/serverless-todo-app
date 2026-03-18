@@ -1,0 +1,14 @@
+{
+  "name": "serverless-todo-app",
+  "version": "1.0.0",
+  "description": "Serverless To-Do app on AWS using Lambda, API Gateway, and DynamoDB",
+  "main": "handler.js",
+  "scripts": {
+    "deploy": "serverless deploy",
+    "invoke-create": "serverless invoke -f createTask --data '{\"title\":\"Test\",\"description\":\"Demo\"}'"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1400.0",
+    "uuid": "^9.0.0"
+  }
+}

@@ -1,0 +1,79 @@
+service: serverless-todo-app
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-central-1
+  stage: dev
+  environment:
+    TASKS_TABLE: Tasks
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:GetItem
+            - dynamodb:Scan
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: arn:aws:dynamodb:eu-central-1:027851298782:table/Tasks
+
+functions:
+  createTask:
+    handler: lambdas/createTask.handler
+    events:
+      - http:
+          path: tasks
+          method: post
+          cors: true
+
+  getTasks:
+    handler: lambdas/getTasks.handler
+    events:
+      - http:
+          path: tasks
+          method: get
+          cors: true
+
+  updateTask:
+    handler: lambdas/updateTask.handler
+    events:
+      - http:
+          path: tasks/{taskId}
+          method: put
+          cors: true
+
+  deleteTask:
+    handler: lambdas/deleteTask.handler
+    events:
+      - http:
+          path: tasks/{taskId}
+          method: delete
+          cors: true
+resources:
+  Resources:
+    Tasks:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Tasks
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: taskId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: taskId
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+
+outputs:
+  ApiUrl:
+    Value:
+      Fn::Join:
+        - ""
+        - - "https://"
+          - Ref: ApiGatewayRestApi
+          - ".execute-api.${self:provider.region}.amazonaws.com/${self:provider.stage}/tasks"

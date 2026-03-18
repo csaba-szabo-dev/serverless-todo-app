@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Serverless Todo App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      max-width: 800px;
+    }
+
+    input {
+      margin: 5px;
+      padding: 6px;
+    }
+
+    button {
+      padding: 6px 12px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    li.completed {
+      text-decoration: line-through;
+      color: gray;
+      opacity: 0.7;
+    }
+
+    #authSection, #appSection {
+      margin-bottom: 24px;
+      padding: 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    #userInfo {
+      margin: 10px 0;
+      font-weight: bold;
+    }
+
+    #status {
+      margin-top: 8px;
+      color: #444;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Serverless Todo App</h1>
+
+  <div id="authSection">
+    <div id="userInfo">Not logged in</div>
+    <button id="loginBtn">Log in</button>
+    <button id="logoutBtn" class="hidden">Log out</button>
+    <div id="status"></div>
+  </div>
+
+  <div id="appSection" class="hidden">
+    <h2>Your Tasks</h2>
+
+    <input id="title" placeholder="Task title" />
+    <input id="description" placeholder="Description" />
+    <button id="addTaskBtn">Add Task</button>
+
+    <h3>Task List</h3>
+    <button id="loadMoreBtn">Load More</button>
+    <ul id="taskList"></ul>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
